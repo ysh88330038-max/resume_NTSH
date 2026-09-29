@@ -1,47 +1,506 @@
+```html
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ask a Question</title>
+
+    <title>課外活動 | 我的學習旅程</title>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        header {
-            background-color: #4CAF50;
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+            background: #f7f8fa;
+            color: #263238;
+            line-height: 1.8;
+        }
+
+        /* ===== 導覽列 ===== */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 16px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #34495e;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #566573;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #3498db;
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            min-height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 20px;
+            background:
+                linear-gradient(
+                    rgba(31, 52, 72, 0.72),
+                    rgba(31, 52, 72, 0.72)
+                ),
+                url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80")
+                center / cover;
             color: white;
-            padding: 10px;
+        }
+
+        .hero-content {
+            max-width: 750px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 72px);
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
+
+        .hero p {
+            font-size: 19px;
+            opacity: 0.92;
+        }
+
+        .hero-line {
+            width: 70px;
+            height: 4px;
+            background: #64b5f6;
+            margin: 25px auto;
+            border-radius: 5px;
+        }
+
+        /* ===== 共用區塊 ===== */
+        section {
+            max-width: 1100px;
+            margin: auto;
+            padding: 90px 25px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            color: #263238;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #78909c;
+        }
+
+        /* ===== 活動卡片 ===== */
+        .activities {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+
+        .activity-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        .activity-content {
+            padding: 28px;
+        }
+
+        .activity-tag {
+            display: inline-block;
+            padding: 5px 13px;
+            border-radius: 20px;
+            background: #e3f2fd;
+            color: #1976d2;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .activity-content h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: #263238;
+        }
+
+        .activity-content p {
+            color: #607d8b;
+            font-size: 15px;
+        }
+
+        /* ===== 活動心得 ===== */
+        .reflection {
+            background: #263238;
+            color: white;
+            max-width: none;
+        }
+
+        .reflection-inner {
+            max-width: 1000px;
+            margin: auto;
+            padding: 90px 25px;
             text-align: center;
         }
-        section {
-            margin: 20px;
+
+        .reflection-inner h2 {
+            font-size: 34px;
+            margin-bottom: 25px;
         }
-        .form-box {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+        .reflection-inner p {
+            max-width: 800px;
+            margin: auto;
+            color: #d7dee2;
+            font-size: 17px;
+        }
+
+        /* ===== 能力 ===== */
+        .skills {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .skill {
+            background: white;
+            padding: 13px 24px;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+            color: #455a64;
+            transition: 0.3s;
+        }
+
+        .skill:hover {
+            transform: translateY(-3px);
+            background: #e3f2fd;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: #18242c;
+            color: #b0bec5;
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 14px;
+        }
+
+        /* ===== RWD ===== */
+        @media (max-width: 768px) {
+
+            .nav-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .activities {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 65px 20px;
+            }
+
+            .hero {
+                min-height: 420px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <header>
-        <h1>課外活動</h1>
-    </header>
-    <section>
-        <div class="form-box">
-            <form action="/activities" method="post">
-                <label for="question">你的問題:</label><br>
-                <input type="text" id="question" name="question" value="{{ question }}"><br><br>
-                <label for="answer">答案:</label><br>
-                <input type="text" id="answer" name="answer" readonly value="{{ answer }}"><br><br>
-                <input type="submit" value="送出">
-                <input type="button" value="回首頁" onclick="window.location.href='/'">
-            </form>
+
+    <!-- 導覽列 -->
+    <nav>
+        <div class="nav-container">
+
+            <div class="logo">
+                MY JOURNEY
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="about.html">關於我</a></li>
+                <li><a href="activities.html">課外活動</a></li>
+                <li><a href="projects.html">學習成果</a></li>
+            </ul>
+
         </div>
+    </nav>
+
+
+    <!-- Hero -->
+    <header class="hero">
+
+        <div class="hero-content">
+
+            <h1>課外活動</h1>
+
+            <div class="hero-line"></div>
+
+            <p>
+                在課堂之外探索興趣，在一次次挑戰中累積經驗。
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <!-- 活動介紹 -->
+    <section>
+
+        <div class="section-title">
+
+            <h2>我的活動</h2>
+
+            <p>
+                不同的經歷，讓我逐漸找到自己的興趣與方向。
+            </p>
+
+        </div>
+
+
+        <div class="activities">
+
+
+            <!-- 排球 -->
+            <article class="activity-card">
+
+                <img
+                    class="activity-image"
+                    src="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1000&q=80"
+                    alt="排球活動">
+
+                <div class="activity-content">
+
+                    <span class="activity-tag">
+                        運動・團隊合作
+                    </span>
+
+                    <h3>🏐 排球活動</h3>
+
+                    <p>
+                        排球是我課外生活中重要的一部分。從練習基本動作到參與團隊活動，
+                        我逐漸體會到溝通與合作的重要性。比賽中不可能每一次都順利，
+                        因此學會在失誤後重新調整、與隊友互相鼓勵，也是我在運動中最大的收穫。
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- 化學競賽 -->
+            <article class="activity-card">
+
+                <img
+                    class="activity-image"
+                    src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1000&q=80"
+                    alt="化學與科學研究">
+
+                <div class="activity-content">
+
+                    <span class="activity-tag">
+                        科學・競賽
+                    </span>
+
+                    <h3>🧪 化學學科能力競賽</h3>
+
+                    <p>
+                        高二時，我自主研讀較進階的化學理論，並透過大量練習歷屆考題，
+                        訓練分析與邏輯推理能力。面對競賽中不熟悉的綜合題型，
+                        我嘗試從已知的觀念一步步推導，最後獲得佳作。
+                        這段經驗讓我更相信，面對陌生問題時，冷靜分析比直接放棄更重要。
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- 科學探究 -->
+            <article class="activity-card">
+
+                <img
+                    class="activity-image"
+                    src="https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?auto=format&fit=crop&w=1000&q=80"
+                    alt="科學探究">
+
+                <div class="activity-content">
+
+                    <span class="activity-tag">
+                        探究・實驗
+                    </span>
+
+                    <h3>🔬 科學探究與實驗</h3>
+
+                    <p>
+                        在課堂與課外活動中，我喜歡透過實驗觀察現象，再思考背後的原因。
+                        從變因控制、資料比較到結果分析，我逐漸學會不只關注「答案」，
+                        也重視如何提出問題、設計方法並驗證自己的想法。
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- 環境專題 -->
+            <article class="activity-card">
+
+                <img
+                    class="activity-image"
+                    src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1000&q=80"
+                    alt="森林與環境研究">
+
+                <div class="activity-content">
+
+                    <span class="activity-tag">
+                        環境・研究
+                    </span>
+
+                    <h3>🌱 環境與生態專題</h3>
+
+                    <p>
+                        在環境科學相關專題中，我探討步道鋪設與生態環境之間的關係。
+                        從樹木根系、土壤環境到生物棲地，我嘗試從不同角度分析人類活動
+                        對自然環境可能造成的影響，也更加理解環境議題需要結合科學證據。
+                    </p>
+
+                </div>
+
+            </article>
+
+        </div>
+
     </section>
+
+
+    <!-- 活動心得 -->
+    <section class="reflection">
+
+        <div class="reflection-inner">
+
+            <h2>從活動中，我學到了什麼？</h2>
+
+            <p>
+                課外活動對我而言，不只是學校生活之外的休閒，
+                更是認識自己的過程。排球讓我學習團隊合作與溝通，
+                科學競賽培養我面對陌生問題時的分析能力，
+                而研究與專題則讓我學會主動尋找資料、提出問題。
+                不同經驗彼此累積，也讓我逐漸了解自己喜歡探索問題，
+                並享受把想法一步步變成成果的過程。
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 能力 -->
+    <section>
+
+        <div class="section-title">
+
+            <h2>活動帶給我的能力</h2>
+
+            <p>
+                我在一次次參與中慢慢建立起這些能力。
+            </p>
+
+        </div>
+
+
+        <div class="skills">
+
+            <div class="skill">🧠 邏輯思考</div>
+
+            <div class="skill">🔬 科學探究</div>
+
+            <div class="skill">📚 自主學習</div>
+
+            <div class="skill">🤝 團隊合作</div>
+
+            <div class="skill">💬 溝通表達</div>
+
+            <div class="skill">💡 問題解決</div>
+
+            <div class="skill">⏳ 堅持與耐心</div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 My Student Portfolio ｜ 高三學生個人網站
+        </p>
+
+    </footer>
+
 </body>
 </html>
+```
