@@ -103,8 +103,8 @@ def electives():
 def ai():
     return render_template('ai.html')
     
-@app.route('/pikmin')
-def pikmin():
+@app.route('/Pikmin')
+def Pikmin():
     return render_template('Pikmin.html')
 
 if __name__ == '__main__':
