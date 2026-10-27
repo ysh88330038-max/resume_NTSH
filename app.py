@@ -43,31 +43,21 @@ def competition():
 @app.route('/ask', methods=['GET', 'POST'])
 def ask():
     if request.method == 'POST':
-        # 2. 讀取學生的問題###^#@#Q%#@
         question1 = request.form.get('question', '').strip()
-        # 3. 查詢題庫的對應答案
-        # answer1 = zh_ko_dict.get(question, "抱歉，我目前沒有這個詞的韓文對應。")
-
         answer1 = zh_ko_dict[question1]
-        # 4. 回傳答案給學生
         return render_template('ask.html', question=question1, answer=answer1)
-    # GET 時給空白欄位
     return render_template('ask.html', question="", answer="")
+
 
 # 使用 dict 作為中日翻譯的題庫
 @app.route('/ask2', methods=['GET', 'POST'])
 def ask2():
     if request.method == 'POST':
-        # 2. 讀取學生的問題###^#@#Q%#@
         question1 = request.form.get('question', '').strip()
-        # 3. 查詢題庫的對應答案
-        # answer1 = zh_ko_dict.get(question, "抱歉，我目前沒有這個詞的韓文對應。")
-
-        answer1 = zh_ko_dict[question1]
-        # 4. 回傳答案給學生
+        answer1 = zh_ja_dict[question1]
         return render_template('ask2.html', question=question1, answer=answer1)
-    # GET 時給空白欄位
     return render_template('ask2.html', question="", answer="")
+    
 
 #改成互動 3/17
 @app.route('/activities', methods=['GET', 'POST'])
