@@ -45,6 +45,11 @@ def competition():
 
 
 # 中韓、中日翻譯共用路由
+@app.route('/competition')
+def competition():
+    return render_template('competition.html')
+
+# 中韓、中日翻譯共用路由
 @app.route('/ask', methods=['GET', 'POST'])
 def ask():
 
@@ -60,15 +65,12 @@ def ask():
         if language == 'ko':
             dictionary = zh_ko_dict
             language_name = "韓文"
+            template_name = "ask.html"
 
         elif language == 'jp':
-            dictionary = zh_ja_dict
+            dictionary = zh_jp_dict
             language_name = "日文"
-
-        else:
-            dictionary = zh_ko_dict
-            language_name = "韓文"
-            language = 'ko'
+            template_name = "ask.html"
 
         # 查詢答案
         answer = dictionary.get(
@@ -78,7 +80,7 @@ def ask():
 
         # 回傳答案
         return render_template(
-            'ask.html',
+            template_name,
             question=question,
             answer=answer,
             language=language
