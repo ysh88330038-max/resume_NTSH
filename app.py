@@ -73,4 +73,21 @@ def ask():
         # 查詢答案
         answer = dictionary.get(
             question,
-            f"抱歉，我目前沒有這個詞的{language_name}對應。
+            f"抱歉，我目前沒有這個詞的{language_name}對應。"
+        )
+
+        # 回傳答案
+        return render_template(
+            'ask.html',
+            question=question,
+            answer=answer,
+            language=language
+        )
+
+    # GET 時給空白欄位
+    return render_template(
+        'ask.html',
+        question="",
+        answer="",
+        language="ko"
+    )
