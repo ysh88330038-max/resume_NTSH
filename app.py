@@ -1,3 +1,4 @@
+```python
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
@@ -16,6 +17,7 @@ zh_ko_dict = {
     "家人": "가족",
     "愛": "사랑"
 }
+
 # 建立中日題庫
 zh_ja_dict = {
     "你好": "こんにちは",
@@ -31,97 +33,44 @@ zh_ja_dict = {
     "愛": "愛"
 }
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/competition')
 def competition():
     return render_template('competition.html')
 
-# 使用 dict 作為中韓翻譯的題庫
+
+# 中韓、中日翻譯共用路由
 @app.route('/ask', methods=['GET', 'POST'])
 def ask():
-    if request.method == 'POST':
-        question1 = request.form.get('question', '').strip()
-        answer1 = zh_ko_dict[question1]
-        return render_template('ask.html', question=question1, answer=answer1)
-    return render_template('ask.html', question="", answer="")
 
-
-# 使用 dict 作為中日翻譯的題庫
-@app.route('/ask2', methods=['GET', 'POST'])
-def ask2():
     if request.method == 'POST':
-        question1 = request.form.get('question', '').strip()
-        answer1 = zh_ja_dict[question1]
-        return render_template('ask2.html', question=question1, answer=answer1)
-    return render_template('ask2.html', question="", answer="")
-    
 
-#改成互動 3/17
-@app.route('/activities', methods=['GET', 'POST'])
-def activities():
-    if request.method == 'POST':
-        # 2. 讀取學生的問題
+        # 讀取學生輸入的問題
         question = request.form.get('question', '').strip()
-        # 3. 查詢題庫的對應答案
-        answer1 = "抱歉，我目前沒有這個詞的韓文對應。"
-        # 4. 回傳答案給學生
-        return render_template('activities.html', question=question, answer=answer1)
-    # GET 時給空白欄位
-    return render_template('activities.html', question="", answer="")
 
-#改成互動 4/14
-@app.route('/stock', methods=['GET', 'POST'])
-def stock():
-    if request.method == 'POST':
-        # 2. 讀取股票號碼
-        question = request.form.get('question', '').strip()
-        # 3. 查詢股票號碼的對應股價
+        # 讀取選擇的語言
+        language = request.form.get('language', 'ko')
 
-        answer = data["data"][-1][6]
-   
-    
-    # API URL
-    url = f"https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&stockNo={stock_no}"
-    
-    # 發送請求
-    res = requests.get(url)
-    data = res.json()
-    
-    # 判斷是否成功
-    if data["stat"] == "OK":
-        answer = data["data"][0][6]
-        #print("收盤價：",data["data"][0][6])
-    else:
-        answer = "查無資料，請確認股票代號或日期"
+        # 根據語言選擇題庫
+        if language == 'ko':
+            dictionary = zh_ko_dict
+            language_name = "韓文"
 
-        # 4. 回傳答案給使用者
-        return render_template('stock.html', question=question, answer=answer)
-    # GET 時給空白欄位
-    return render_template('stock.html', question="", answer="")
+        elif language == 'jp':
+            dictionary = zh_ja_dict
+            language_name = "日文"
 
+        else:
+            dictionary = zh_ko_dict
+            language_name = "韓文"
+            language = 'ko'
 
-@app.route('/leadership')
-def leadership():
-    return render_template('leadership.html')
-
-@app.route('/club')
-def club():
-    return render_template('club.html')
-
-@app.route('/electives')
-def electives():
-    return render_template('electives.html')
-
-@app.route('/ai')
-def ai():
-    return render_template('ai.html')
-    
-@app.route('/Pikmin')
-def Pikmin():
-    return render_template('Pikmin.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)
+        # 查詢答案
+        answer = dictionary.get(
+            question,
+            f"抱歉，我目前沒有這個詞的{language_name}對應。
