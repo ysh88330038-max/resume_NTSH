@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -30,45 +29,19 @@
 </head>
 <body>
     <header>
-        <h1>中韓中日翻譯系統</h1>
+        <h1>字典</h1>
     </header>
-
     <section>
         <div class="form-box">
             <form action="/ask" method="post">
-
-                <label for="language">選擇翻譯語言：</label><br>
-                <select id="language" name="language">
-                    <option value="ko"
-                        {% if language == 'ko' %}selected{% endif %}>
-                        韓文
-                    </option>
-                    <option value="jp"
-                        {% if language == 'jp' %}selected{% endif %}>
-                        日文
-                    </option>
-                </select>
-                <br><br>
-
-                <label for="question">中文：</label><br>
-                <input type="text" id="question" name="question"
-                       value="{{ question }}" required>
-                <br><br>
-
-                <label for="answer">
-                    {% if language == 'jp' %}日文：{% else %}韓文：{% endif %}
-                </label><br>
-                <input type="text" id="answer" name="answer"
-                       readonly value="{{ answer }}">
-                <br><br>
-
+                <label for="question">中文:</label><br>
+                <input type="text" id="question" name="question" value="{{ question }}"><br><br>
+                <label for="answer">韓文:</label><br>
+                <input type="text" id="answer" name="answer" readonly value="{{ answer }}"><br><br>
                 <input type="submit" value="送出">
-                <input type="button" value="回首頁"
-                       onclick="window.location.href='/'">
-
+                <input type="button" value="回首頁" onclick="window.location.href='/'">
             </form>
         </div>
     </section>
 </body>
 </html>
-```
