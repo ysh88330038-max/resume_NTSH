@@ -1,98 +1,57 @@
-```html
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中韓中日翻譯系統</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-
-        section {
-            margin: 20px;
-        }
-
-        .form-box {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <title>中韓中日翻譯</title>
 </head>
 
 <body>
 
-    <header>
-        <h1>中韓中日翻譯系統</h1>
-    </header>
+    <h1>中韓中日翻譯系統</h1>
 
-    <section>
-        <div class="form-box">
+    <form method="POST" action="/ask">
 
-            <form action="/ask" method="post">
+        <!-- 選擇翻譯語言 -->
+        <label>選擇語言：</label>
 
-                <label for="language">選擇翻譯語言：</label><br>
+        <select name="language">
 
-                <select id="language" name="language">
-                    <option value="ko"
-                        {% if language == 'ko' %}selected{% endif %}>
-                        韓文
-                    </option>
+            <option value="ko">韓文</option>
 
-                    <option value="jp"
-                        {% if language == 'jp' %}selected{% endif %}>
-                        日文
-                    </option>
-                </select>
+            <option value="jp">日文</option>
 
-                <br><br>
+        </select>
 
-                <label for="question">中文：</label><br>
+        <br><br>
 
-                <input type="text"
-                       id="question"
-                       name="question"
-                       value="{{ question }}"
-                       required>
+        <!-- 輸入中文 -->
+        <label>請輸入中文：</label>
 
-                <br><br>
+        <input type="text"
+               name="question"
+               value="{{ question }}"
+               required>
 
-                <label for="answer">
-                    {% if language == 'jp' %}日文：{% else %}韓文：{% endif %}
-                </label><br>
+        <br><br>
 
-                <input type="text"
-                       id="answer"
-                       name="answer"
-                       readonly
-                       value="{{ answer }}">
+        <button type="submit">
+            翻譯
+        </button>
 
-                <br><br>
+    </form>
 
-                <input type="submit" value="送出">
 
-                <input type="button"
-                       value="回首頁"
-                       onclick="window.location.href='/'">
+    {% if answer %}
 
-            </form>
+        <h2>翻譯結果</h2>
 
-        </div>
-    </section>
+        <p>中文：{{ question }}</p>
+
+        <p>翻譯：{{ answer }}</p>
+
+    {% endif %}
 
 </body>
+
 </html>
-```
