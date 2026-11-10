@@ -1,47 +1,44 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ask a Question</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-        section {
-            margin: 20px;
-        }
-        .form-box {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>查詢股價</h1>
-    </header>
-    <section>
-        <div class="form-box">
-            <form action="/stock" method="post">
-                <label for="question">股票號碼:</label><br>
-                <input type="text" id="question" name="question" value="{{ question }}"><br><br>
-                <label for="answer">股價:</label><br>
-                <input type="text" id="answer" name="answer" readonly value="{{ answer }}"><br><br>
-                <input type="submit" value="送出">
-                <input type="button" value="回首頁" onclick="window.location.href='/'">
-            </form>
-        </div>
-    </section>
-</body>
-</html>
+```python
+# 股票查詢功能
+@app.route('/stock', methods=['GET', 'POST'])
+def stock():
+
+    if request.method == 'POST':
+
+        # 讀取使用者輸入的股票代號
+        question = request.form.get('question', '').strip()
+
+        # 設定初始答案
+        answer = ""
+
+        # API URL
+        url = f"https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&stockNo={question}"
+
+        try:
+            # 發送請求
+            res = requests.get(url, timeout=10)
+            data = res.json()
+
+            # 判斷是否成功
+            if data["stat"] == "OK" and data["data"]:
+                answer = data["data"][-1][6]
+            else:
+                answer = "查無資料，請確認股票代號。"
+
+        except Exception:
+            answer = "查詢失敗，請稍後再試。"
+
+        # 回傳答案
+        return render_template(
+            'stock.html',
+            question=question,
+            answer=answer
+        )
+
+    # GET 時給空白欄位
+    return render_template(
+        'stock.html',
+        question="",
+        answer=""
+    )
+```
